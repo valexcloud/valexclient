@@ -50,13 +50,13 @@ install_hct() {
   success "Hydra Cloud Software Manager installed!"
 }
 
-fali_dl() {
+valex_dl() {
   output "Downloading Faliactyl files .. "
   mkdir -p /var/www/faliactyl
   cd /var/www/faliactyl
-  wget https://raw.githubusercontent.com/valexcloud/valexclient/main/Faliactyl-Release-V$FALIACTYL_VERSION.zip
-  unzip Faliactyl-Release-V$FALIACTYL_VERSION.zip
-  rm Faliactyl-Release-V$FALIACTYL_VERSION.zip
+  wget https://raw.githubusercontent.com/valexcloud/valexclient/main/ValexClient-Release-V$FALIACTYL_VERSION.zip
+  unzip ValexClient-Release-V$FALIACTYL_VERSION.zip
+  rm ValexClient-Release-V$FALIACTYL_VERSION.zip
   npm install
   npm install -g pm2
   pm2 start index.js --name "Faliactyl"
@@ -322,7 +322,7 @@ perform_install() {
   dep_install
   install_node
   #install_hct
-  fali_dl
+  valex_dl
   create_db_user "$MYSQL_USER" "$MYSQL_PASSWORD"
   create_db "$MYSQL_DB" "$MYSQL_USER"
   [ "$CONFIGURE_LETSENCRYPT" == true ] && letsencrypt
