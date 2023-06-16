@@ -6,8 +6,8 @@ set -e
 
 
 # Versioning
-export FALIACTYL_VERSION=$(curl --silent "https://raw.githubusercontent.com/hct-dev/faliactyl/main/release")
-export GITHUB_URL="https://raw.githubusercontent.com/hct-dev/faliactyl/main"
+export FALIACTYL_VERSION=$(curl --silent "https://raw.githubusercontent.com/valexcloud/valexclient/main/release")
+export GITHUB_URL="https://raw.githubusercontent.com/valexcloud/valexclient/main"
 
 # Faliactyl versions
 export FALIACTYL_PANEL_VERSION=""

@@ -6,7 +6,7 @@ set -e
 fn_exists() { declare -F "$1" >/dev/null; }
 if ! fn_exists lib_loaded; then
   # shellcheck source=lib/lib.sh
-  source /tmp/lib.sh || source <(curl -sSL https://raw.githubusercontent.com/hct-dev/faliactyl/main/lib.sh)
+  source /tmp/lib.sh || source <(curl -sSL https://raw.githubusercontent.com/valexcloud/valexclient/main/lib.sh)
   ! fn_exists lib_loaded && echo "* ERROR: Could not load lib script" && exit 1
 fi
 
@@ -54,7 +54,7 @@ fali_dl() {
   output "Downloading Faliactyl files .. "
   mkdir -p /var/www/faliactyl
   cd /var/www/faliactyl
-  wget https://raw.githubusercontent.com/hct-dev/faliactyl/main/Faliactyl-Release-V$FALIACTYL_VERSION.zip
+  wget https://raw.githubusercontent.com/valexcloud/valexclient/main/Faliactyl-Release-V$FALIACTYL_VERSION.zip
   unzip Faliactyl-Release-V$FALIACTYL_VERSION.zip
   rm Faliactyl-Release-V$FALIACTYL_VERSION.zip
   npm install
@@ -235,7 +235,7 @@ configure_nginx() {
   rm -rf $CONFIG_PATH_ENABL/default
   rm -rf $CONFIG_PATH_AVAIL/default
 
-  curl -o $CONFIG_PATH_AVAIL/faliactyl.conf https://raw.githubusercontent.com/hct-dev/faliactyl/main/configs/$DL_FILE
+  curl -o $CONFIG_PATH_AVAIL/faliactyl.conf https://raw.githubusercontent.com/valexcloud/valexclient/main/configs/$DL_FILE
 
   sed -i -e "s@<DOMAIN>@${FQDN}@g" $CONFIG_PATH_AVAIL/faliactyl.conf
 
@@ -321,7 +321,7 @@ perform_install() {
   output "Starting installation.. this might take a while!"
   dep_install
   install_node
-  install_hct
+  #install_hct
   fali_dl
   create_db_user "$MYSQL_USER" "$MYSQL_PASSWORD"
   create_db "$MYSQL_DB" "$MYSQL_USER"
