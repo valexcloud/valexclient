@@ -4,7 +4,7 @@ set -e
 
 # Check if script is loaded, load if not or fail otherwise.
 rm -rf /tmp/lib.sh
-curl -sSL -o /tmp/lib.sh https://raw.githubusercontent.com//valexcloud/valexclient/main/lib.sh
+curl -sSL -o /tmp/lib.sh https://raw.githubusercontent.com/valexcloud/valexclient/main/lib.sh
 # shellcheck source=lib/lib.sh
 source /tmp/lib.sh
 
@@ -81,7 +81,7 @@ check_FQDN_SSL() {
 
 main() {
   # check if we can detect an already existing installation
-  if [ -d "/var/www/Valex Client" ]; then
+  if [ -d "/var/www/valexclient" ]; then
     warning "The script has detected that you already have Valex Client on your system! You cannot run the script multiple times, it will fail!"
     echo -e -n "* Are you sure you want to proceed? (y/N): "
     read -r CONFIRM_PROCEED
@@ -198,17 +198,17 @@ goodbye() {
   [ "$ASSUME_SSL" == true ] && [ "$CONFIGURE_LETSENCRYPT" == false ] && output "You have opted in to use SSL, but not via Let's Encrypt automatically. Your panel will not work until SSL has been configured."
   [ "$ASSUME_SSL" == false ] && [ "$CONFIGURE_LETSENCRYPT" == false ] && output "Your panel should be accessible from $(hyperlink "$FQDN")"
   output ""
-  output "Valex Client Config is in /var/www/Valex Client/.env"
+  output "Valex Client Config is in /var/www/valexclient/.env"
   output ""
   output "Migrate Database Tables using npm run manager and put 3. Else your app won't work."
   output "Restart the APP after migrating Database Tables."
   output ""
-  output "Start Valex Client in /var/www/Valex Client using pm2 start index.js --name Valex Client"
+  output "Start Valex Client in /var/www/valexclient using pm2 start index.js --name Valex Client"
   output ""
   output "Stop Valex Client use pm2 stop Valex Client"
   output "Restart Valex Client use pm2 restart Valex Client"
   output ""
-  output "Further Docs on https://Valex Client.tech"
+  output "Further Docs on https://docs.valexcloud.com/valexclient/"
   output "Installation is using nginx on $OS"
   output "Thank you for using this script."
   [ "$CONFIGURE_FIREWALL" == false ] && echo -e "* ${COLOR_RED}Note${COLOR_NC}: If you haven't configured the firewall: 80/443/3070 (HTTP/HTTPS/Valex Client) is required to be open!"
