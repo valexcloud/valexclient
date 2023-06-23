@@ -16,9 +16,9 @@ fi
 FQDN="${FQDN:-localhost}"
 LICENSE="${LICENSE}"
 # Default MySQL credentials
-MYSQL_DB="${MYSQL_DB:-faliactyl}"
-MYSQL_USER="${MYSQL_USER:-faliactyl}"
-MYSQL_PASSWORD="${MYSQL_PASSWORD:-$(gen_passwd 64)}"
+MYSQL_DB="${MYSQL_DB:-valexclient}"
+MYSQL_USER="${MYSQL_USER:-valexclient}"
+MYSQL_PASSWORD="${MYSQL_PASSWORD:-$(gen_passwd 16)}"
 
 # Environment
 timezone="${timezone:-Europe/Stockholm}"
@@ -51,16 +51,15 @@ install_hct() {
 }
 
 valex_dl() {
-  output "Downloading Faliactyl files .. "
-  mkdir -p /var/www/faliactyl
-  cd /var/www/faliactyl
-  wget https://raw.githubusercontent.com/valexcloud/valexclient/main/ValexClient-Release-V$FALIACTYL_VERSION.zip
-  unzip ValexClient-Release-V$FALIACTYL_VERSION.zip
-  rm ValexClient-Release-V$FALIACTYL_VERSION.zip
+  output "Downloading Valex Client files .. "
+  mkdir -p /var/www/valexclient
+  cd /var/www/valexclient
+  wget https://raw.githubusercontent.com/valexcloud/valexclient/main/ValexClient-Release-V$VALEXCLIENT_VERSION.zip
+  unzip ValexClient-Release-V$VALEXCLIENT_VERSION.zip
+  rm ValexClient-Release-V$VALEXCLIENT_VERSION.zip
   npm install
   npm install -g pm2
-  pm2 start index.js --name "Faliactyl"
-  success "Downloaded Faliactyl files!"
+  success "Downloaded Valex Client files!"
 }
 
 # -------- OS specific install functions ------- #
@@ -172,7 +171,7 @@ dep_install() {
 # --------------- Other functions -------------- #
 
 firewall_ports() {
-  output "Opening ports: 22 (SSH), 80 (HTTP) 443 (HTTPS) 3070 (Faliactyl)"
+  output "Opening ports: 22 (SSH), 80 (HTTP) 443 (HTTPS) 3070 (Valex Client)"
 
   firewall_allow_ports "22 80 443 3070"
 
@@ -198,13 +197,16 @@ letsencrypt() {
     if [[ "$CONFIGURE_SSL" =~ [Yy] ]]; then
       ASSUME_SSL=true
       CONFIGURE_LETSENCRYPT=false
+      DO_SSL=true
       configure_nginx
     else
       ASSUME_SSL=false
       CONFIGURE_LETSENCRYPT=false
+      DO_SSL=false
     fi
   else
     success "The process of obtaining a Let's Encrypt certificate succeeded!"
+    DO_SSL=true
   fi
 }
 
@@ -213,9 +215,9 @@ letsencrypt() {
 configure_nginx() {
   output "Configuring nginx .."
 
-  apt -y purge apache2
-  apt -y purge apache2-bin
-  if [ $ASSUME_SSL == true ] && [ $CONFIGURE_LETSENCRYPT == false ]; then
+  apt -y purge --autoremove apache2
+
+  if [ $DO_SSL == true ]; then
     DL_FILE="nginx_ssl.conf"
   else
     DL_FILE="nginx.conf"
@@ -235,13 +237,13 @@ configure_nginx() {
   rm -rf $CONFIG_PATH_ENABL/default
   rm -rf $CONFIG_PATH_AVAIL/default
 
-  curl -o $CONFIG_PATH_AVAIL/faliactyl.conf https://raw.githubusercontent.com/valexcloud/valexclient/main/configs/$DL_FILE
+  curl -o $CONFIG_PATH_AVAIL/valexclient.conf https://raw.githubusercontent.com/valexcloud/valexclient/main/configs/$DL_FILE
 
-  sed -i -e "s@<DOMAIN>@${FQDN}@g" $CONFIG_PATH_AVAIL/faliactyl.conf
+  sed -i -e "s@<DOMAIN>@${FQDN}@g" $CONFIG_PATH_AVAIL/valexclient.conf
 
   case "$OS" in
   ubuntu | debian)
-    ln -sf $CONFIG_PATH_AVAIL/faliactyl.conf $CONFIG_PATH_ENABL/faliactyl.conf
+    ln -sf $CONFIG_PATH_AVAIL/valexclient.conf $CONFIG_PATH_ENABL/valexclient.conf
     ;;
   esac
 
@@ -253,7 +255,7 @@ configure_nginx() {
 }
 
 configure_env(){
-cd /var/www/faliactyl
+cd /var/www/valexclient
 SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 30 | head -n 1)
 cat >.env <<EOL
 # License Key
@@ -261,7 +263,7 @@ LICENSE_KEY=${LICENSE}
 
 
 # App Configuration
-APP_NAME=Faliactyl
+APP_NAME=ValexClient
 
 # Cookie Signing Secret Key. Put a very random string! Like This: Bfi3bmf4bq37xbm3f7qxebymdwyexyfbd
 APP_SECRET=${SECRET}
@@ -305,13 +307,13 @@ PANEL_API_KEY=ptla_yourpanelapikey
 EOL
 }
 finish() {
-  if [ $ASSUME_SSL == true ] && [ $CONFIGURE_LETSENCRYPT == false ]; then
+  if [ $DO_SSL == true ]; then
     HTTP="https://"
   else
     HTTP="http://"
   fi
   success "Installation Finished!"
-  output "Configure .env in /var/www/faliactyl and fillout the empty fields."
+  output "Configure .env in /var/www/valexclient and fillout the empty fields."
   output "The fields like mysql and redis have already been filled for you."
   output "You need to configure SMTP."
 }

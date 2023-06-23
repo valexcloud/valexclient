@@ -6,12 +6,8 @@ set -e
 
 
 # Versioning
-export FALIACTYL_VERSION=$(curl --silent "https://raw.githubusercontent.com/valexcloud/valexclient/main/release")
+export VALEXCLIENT_VERSION=$(curl --silent "https://raw.githubusercontent.com/valexcloud/valexclient/main/release")
 export GITHUB_URL="https://raw.githubusercontent.com/valexcloud/valexclient/main"
-
-# Faliactyl versions
-export FALIACTYL_PANEL_VERSION=""
-export FALIACTYL_NODE_VERSION=""
 
 # OS
 export OS=""
@@ -75,19 +71,13 @@ hyperlink() {
   echo -e "\e]8;;${1}\a${1}\e]8;;\a"
 }
 
-# First argument is wings / panel / neither
 welcome() {
   print_brake 70
-  output "Faliactyl installation script"
+  output "Valex Client installation script"
   output ""
   output "Copyright (C) 2021-2023, Hydra Cloud LLC"
   output ""
   output "Running $OS version $OS_VER."
-  if [ "$1" == "panel" ]; then
-    output "Latest Faliactyl/panel is $VERSION"
-  elif [ "$1" == "wings" ]; then
-    output "Latest Faliactyl/node is $VERSION"
-  fi
   print_brake 70
 }
 

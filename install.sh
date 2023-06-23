@@ -10,6 +10,9 @@ source /tmp/lib.sh
 
 # ------------------ Variables ----------------- #
 
+# License
+export LICENSE=""
+
 # Domain name / IP
 export FQDN=""
 
