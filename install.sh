@@ -107,13 +107,13 @@ main() {
 
   MYSQL_DB="-"
   while [[ "$MYSQL_DB" == *"-"* ]]; do
-    required_input MYSQL_DB "Database name (Valex Client): " "" "Valex Client"
+    required_input MYSQL_DB "Database name (valexclient): " "" "valexclient"
     [[ "$MYSQL_DB" == *"-"* ]] && error "Database name cannot contain hyphens"
   done
 
   MYSQL_USER="-"
   while [[ "$MYSQL_USER" == *"-"* ]]; do
-    required_input MYSQL_USER "Database username (Valex Client): " "" "Valex Client"
+    required_input MYSQL_USER "Database username (valexclient): " "" "valexclient"
     [[ "$MYSQL_USER" == *"-"* ]] && error "Database user cannot contain hyphens"
   done
 
@@ -176,7 +176,7 @@ main() {
 
 summary() {
   print_brake 62
-  output "Valex Client $Valex Client_VERSION with nginx on $OS"
+  output "Valex Client V1.0.0 with nginx on $OS"
   output "License: $LICENSE"
   output "Database name: $MYSQL_DB"
   output "Database user: $MYSQL_USER"
@@ -203,10 +203,10 @@ goodbye() {
   output "Migrate Database Tables using npm run manager and put 3. Else your app won't work."
   output "Restart the APP after migrating Database Tables."
   output ""
-  output "Start Valex Client in /var/www/valexclient using pm2 start index.js --name Valex Client"
+  output "Start Valex Client in /var/www/valexclient using pm2 start index.js --name valexclient"
   output ""
-  output "Stop Valex Client use pm2 stop Valex Client"
-  output "Restart Valex Client use pm2 restart Valex Client"
+  output "Stop Valex Client use pm2 stop valexclient"
+  output "Restart Valex Client use pm2 restart valexclient"
   output ""
   output "Further Docs on https://docs.valexcloud.com/valexclient/"
   output "Installation is using nginx on $OS"
