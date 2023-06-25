@@ -16,6 +16,9 @@ apt -y upgrade
 rm -f /var/www/.env
 cp -f /var/www/valexclient/.env /var/www/.env
 rm -rf /var/www/valexclient
+cd /var/www
+mkdir valexclient
+cd valexclient
 wget https://raw.githubusercontent.com/valexcloud/valexclient/main/ValexClient-$channel_formatted-V$VERSION.zip
 unzip ValexClient-$channel_formatted-V$VERSION.zip
 rm -f ValexClient-$channel_formatted-V$VERSION.zip
