@@ -3,10 +3,10 @@
 channel=$1
 channel="${channel#--}"
 
-if [ channel = "release" ]; then
-echo "Update Started.."
+if [ $channel = "release" ]; then
+echo "Checking for Updates.."
 VERSION=$(curl --silent "https://raw.githubusercontent.com/valexcloud/valexclient/main/$channel")
-if [ VERSION = "none" ]; then
+if [ $VERSION = "none" ]; then
 echo "No Updates Available"
 else
 channel_formatted=$(echo "$channel" | sed -E 's/(^| )(.)/\U\2/g; s/ /_/g')
@@ -27,10 +27,10 @@ npm install
 node /var/www/valexclient/update.js
 echo "Update Finished!"
 fi
-elif [ channel = "release_candidate" ]; then
-echo "Update Started.."
+elif [ $channel = "release_candidate" ]; then
+echo "Checking for Updates.."
 VERSION=$(curl --silent "https://raw.githubusercontent.com/valexcloud/valexclient/main/$channel")
-if [ VERSION = "none" ]; then
+if [ $VERSION = "none" ]; then
 echo "No Updates Available"
 else
 channel_formatted=$(echo "$channel" | sed -E 's/(^| )(.)/\U\2/g; s/ /_/g')
@@ -51,10 +51,10 @@ npm install
 node /var/www/valexclient/update.js
 echo "Update Finished!"
 fi
-elif [ channel = "beta" ]; then
-echo "Update Started.."
+elif [ $channel = "beta" ]; then
+echo "Checking for Updates.."
 VERSION=$(curl --silent "https://raw.githubusercontent.com/valexcloud/valexclient/main/$channel")
-if [ VERSION = "none" ]; then
+if [ $VERSION = "none" ]; then
 echo "No Updates Available"
 else
 channel_formatted=$(echo "$channel" | sed -E 's/(^| )(.)/\U\2/g; s/ /_/g')
