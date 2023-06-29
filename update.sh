@@ -87,3 +87,4 @@ npm install
 node /var/www/valexclient/update.js
 echo "Update Finished!"
 fi
+fi
