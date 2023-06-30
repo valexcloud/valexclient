@@ -1,3 +1,13 @@
+Valex Client V1.0.6
+- Fixed Settings
+- Added API Management System
+- Added API Permissions
+- Reworked Package System
+- Fixed Server Creation Unlimited Resources Exploit
+- Fixed J4R Duplicates in Settings
+- Fixed Store Limits
+- Added Fixed Store Limit Per Variables
+
 Valex Client V1.0.5
 - Removed Version Check on Startup
 
